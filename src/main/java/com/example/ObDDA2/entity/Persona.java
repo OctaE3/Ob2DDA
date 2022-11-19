@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.MappedSuperclass;
 
 
@@ -18,7 +16,6 @@ import javax.persistence.MappedSuperclass;
 public class Persona implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ci;
 
     @Column(length = 50)

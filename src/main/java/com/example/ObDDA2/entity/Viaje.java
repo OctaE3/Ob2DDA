@@ -18,9 +18,9 @@ public class Viaje implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(length = 20)
+    @Column(length = 50)
     private String destino;
 
     @Column
@@ -33,13 +33,13 @@ public class Viaje implements Serializable{
     private Double precio;
 
     @Column
-    private boolean eliminado;
+    private Boolean eliminado;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -75,11 +75,13 @@ public class Viaje implements Serializable{
         this.precio = precio;
     }
 
-    public boolean isEliminado() {
+    public Boolean isEliminado() {
         return eliminado;
     }
 
-    public void setEliminado(boolean eliminado) {
+    public void setEliminado(Boolean eliminado) {
         this.eliminado = eliminado;
     }
+
+    
 }

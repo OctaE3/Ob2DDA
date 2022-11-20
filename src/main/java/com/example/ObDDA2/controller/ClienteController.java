@@ -26,7 +26,7 @@ public class ClienteController {
     private ClienteService clienteService;
 
     //Agregar
-    @PostMapping(value = "/altacliente")
+    @PostMapping(value = "/altaCliente")
     public ResponseEntity<?> create(@RequestBody Cliente cliente)
     {
         try{
@@ -39,7 +39,7 @@ public class ClienteController {
     }
     
     //Buscar por cedula
-    @GetMapping("/buscarcliente/{ci}")
+    @GetMapping("/buscarCliente/{ci}")
     public ResponseEntity<?> read(@PathVariable(value="ci") int clienteCi){
         Optional<Cliente> unCliente = clienteService.findByCi(clienteCi);
         if(!unCliente.isPresent()){
@@ -49,7 +49,7 @@ public class ClienteController {
     }
 
     //Modificar
-    @PutMapping("/modificarcliente/{ci}")
+    @PutMapping("/modificarCliente/{ci}")
     public ResponseEntity<?> update (@RequestBody Cliente clienteDetails, @PathVariable int Ci){
         Optional<Cliente> unCliente = clienteService.findByCi(Ci);
         if(!unCliente.isPresent()){
@@ -62,7 +62,7 @@ public class ClienteController {
     }
 
     //Eliminar
-    @DeleteMapping("/bajacliente/{ci}")
+    @DeleteMapping("/bajaCliente/{ci}")
     public ResponseEntity<?> delete(@PathVariable int Ci){
         Optional<Cliente> cliente = clienteService.findByCi(Ci);
         if(!cliente.isPresent()){
@@ -73,7 +73,7 @@ public class ClienteController {
     }   
 
     //Buscar todos(Traer todos los clientes)
-    @GetMapping
+    @GetMapping("/listarClientes")
     public List<Cliente> readAll(){
         List<Cliente> clientes = StreamSupport
         .stream(clienteService.findAll().spliterator(), false)

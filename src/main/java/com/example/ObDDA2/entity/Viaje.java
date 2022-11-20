@@ -32,6 +32,9 @@ public class Viaje implements Serializable{
     @Column
     private Double precio;
 
+    @Column
+    private boolean eliminado;
+
     public Long getId() {
         return id;
     }
@@ -72,5 +75,11 @@ public class Viaje implements Serializable{
         this.precio = precio;
     }
 
+    public boolean isEliminado() {
+        return eliminado;
+    }
 
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
 }

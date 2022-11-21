@@ -19,7 +19,7 @@
                     <a class="nav-link">Viaje</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" th:href="@{gestion_cliente}">Clientes</a>
+                    <a class="nav-link" th:href="@{/listarClientes}">Cliente</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" >Clientes Vip</a>
@@ -32,62 +32,36 @@
           <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-                    <h1 class="text-center">Gestión Cliente</h1>
+                    <h1 class="text-center">Modificar Cliente</h1>
                     <div class="card-body">
-                        <form th:action="@{/gestion_cliente}" th:object="${cliente}" method="POST">
+                        <form th:action="@{/modificarCliente/{ci}(ci=${cliente.ci)}" th:object="${cliente}" method="POST">
                             <div class="form-group">
                                 <label>Cédula de Identidad</label>
-                                <input type="tel" name="ci" th:field="*{ci}" class="form-control" placeholder="Ingrese su cédula(Sin puntos y guiones)">
+                                <input type="numbers" name="ci" th:field="*{ci}" class="form-control" placeholder="Ingrese su cédula(Sin puntos y guiones)" minlength="8" maxlength="8">
                             </div>
                             <br/>
                             <div class="form-group">
-                                <label>Cédula de Identidad</label>
+                                <label>Nombre</label>
                                 <input type="text" name="nombre" th:field="*{nombre}" class="form-control" placeholder="Ingrese su nombre">
                             </div>
                             <br/>
                             <div class="form-group">
-                                <label>Cédula de Identidad</label>
+                                <label>Apellido</label>
                                 <input type="text" name="apellido" th:field="*{apellido}" class="form-control" placeholder="Ingrese su apellido">
                             </div>
                             <br/>
                             <div class="form-group">
-                                <label>Cédula de Identidad</label>
+                                <label>Email</label>
                                 <input type="email" name="email" th:field="*{email}" class="form-control" placeholder="Ingrese su email">
                             </div>
                             <br/>
                             <div class="form-group" style="display:flex; justify-content:center; align-items:center;">
-                                <button type="button" class="btn btn-success" style="margin: 1%;">Agregar</button>
-                                <button type="button" class="btn btn-danger" style="margin: 1%;">Eliminar</button>
-                                <button type="button" class="btn btn-primary" style="margin: 1%;">Modificar</button>
+                                <button class="btn btn-warning" style="margin: 1%;">Modificar</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
           </div>
-          <br/>
-        <div class="container">
-            <div class="row" style="text-align: center;">
-                <h1>Lista estudiantes</h1>
-            </div>
-            <table class="table table-striped table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Cédula</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="cli : ${clientes}">
-                        <td th:text="${cli.ci}">Cédula</td>
-                        <td th:text="${cli.nombre}">Nombre</td>
-                        <td th:text="${cli.apellido}">Apellido</td>
-                        <td th:text="${cli.email}">Email</td>
-                    </tr>
-                </tbody>
-            </table>    
-        </div>
     </body>
 </html>

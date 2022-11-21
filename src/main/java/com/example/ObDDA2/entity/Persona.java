@@ -16,7 +16,7 @@ import javax.persistence.MappedSuperclass;
 public class Persona implements Serializable {
     
     @Id
-    private int ci;
+    private Long ci;
 
     @Column(length = 50)
     private String nombre;
@@ -27,8 +27,12 @@ public class Persona implements Serializable {
     @Column(name = "mail", nullable = false, length = 50, unique = true)
     private String email;
 
-    public int getCi(){
+    public Long getCi(){
         return ci;
+    }
+
+    public void setCi(Long ci) {
+        this.ci = ci;
     }
 
     public String getNombre(){

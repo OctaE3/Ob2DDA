@@ -8,8 +8,8 @@ import com.example.ObDDA2.entity.Cliente;
 
 public interface ClienteService {
     public Iterable<Cliente> findAll();
-    public Optional<Cliente> findByCi(int Ci);
+    public Optional<Cliente> findById(Long Ci);
     public Cliente save(Cliente cliente);
-    public void deleteByCi(int Ci);
+    public void deleteById(Long Ci);
     public Page<Cliente> findAll(Pageable pageable);
 }

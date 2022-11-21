@@ -3,7 +3,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,17 +15,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.service.ClienteService;
 
-@RestController
-@RequestMapping("clientes")
+@Controller
 public class ClienteController {
     
     @Autowired
     private ClienteService clienteService;
+
+    @GetMapping
+    public String listarCliente(Model modelo)
+    {
+        modelo.addAttribute("clientes", clienteService.findAll());
+        return "gestion_cliente";
+    }
+
+    @GetMapping(value = "/gestion_cliente")
+    public String gestionCliente(Model modelo, Model modelo2)
+    {
+        listarCliente(modelo2);
+        modelo.addAttribute("cliente", new Cliente());
+        return "gestion_cliente";
+    }
+
+    
 
     //Agregar
     @PostMapping(value = "/altaCliente")
@@ -37,7 +56,7 @@ public class ClienteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
-    
+    /*
     //Buscar por cedula
     @GetMapping("/buscarCliente/{ci}")
     public ResponseEntity<?> read(@PathVariable(value="ci") int clienteCi){
@@ -79,5 +98,5 @@ public class ClienteController {
         .stream(clienteService.findAll().spliterator(), false)
         .collect(Collectors.toList());
         return clientes;
-    }
+    }*/
 }

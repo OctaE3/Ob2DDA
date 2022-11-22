@@ -34,26 +34,16 @@ public class ClienteController {
     }
 
     @PostMapping(value = "/guardarCliente")
-    public String guardarCliente(@ModelAttribute Cliente cliente) {
+    public String guardarCliente(@ModelAttribute("cliente") Cliente cliente) {
         clienteService.save(cliente);
         return "redirect:/listarClientes";
     }
 
     @GetMapping(value = "/cargarCliente/{ci}")
-    public String cargarCliente(@PathVariable Long ci, Model modelo) {
-        modelo.addAttribute("cliente", modelo);
+    public String cargarCliente(@PathVariable(value = "ci") Long ci, Model modelo) {
+        Optional<Cliente> cliente = clienteService.findById(ci);
+        modelo.addAttribute("cliente", cliente);
         return "modificar_cliente";
-    }
-
-    @PostMapping(value = "/modificarCliente/{ci}")
-    public String modificarCliente(@PathVariable Long ci, @ModelAttribute("cliente") Cliente cliente) {
-        Optional<Cliente> clienteExistente = clienteService.findById(ci);
-        clienteExistente.get().setCi(ci);
-        clienteExistente.get().setNombre(cliente.getNombre());
-        clienteExistente.get().setApellido(cliente.getApellido());
-        clienteExistente.get().setEmail(cliente.getEmail());
-        clienteService.save(clienteExistente.get());
-        return "redirect:/listarClientes";
     }
 
     @GetMapping(value = "/eliminarCliente/{ci}")
@@ -62,69 +52,70 @@ public class ClienteController {
         return "redirect:/listarClientes";
     }
 
-    // Agregar
-    /*
-     * @PostMapping(value = "/altaCliente")
-     * public ResponseEntity<?> create(@RequestBody Cliente cliente)
-     * {
-     * try{
-     * return
-     * ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(cliente));
-     * }catch(Exception e){
-     * HashMap<String, String> error = new HashMap<>();
-     * error.put("error", e.getMessage());
-     * return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-     * }
-     * }
-     * 
-     * //Buscar por cedula
-     * 
-     * @GetMapping("/buscarCliente/{ci}")
-     * public ResponseEntity<?> read(@PathVariable(value="ci") int clienteCi){
-     * Optional<Cliente> unCliente = clienteService.findByCi(clienteCi);
-     * if(!unCliente.isPresent()){
-     * return ResponseEntity.notFound().build();
-     * }
-     * return ResponseEntity.ok(unCliente);
-     * }
-     * 
-     * //Modificar
-     * 
-     * @PutMapping("/modificarCliente/{ci}")
-     * public ResponseEntity<?> update (@RequestBody Cliente
-     * clienteDetails, @PathVariable int Ci){
-     * Optional<Cliente> unCliente = clienteService.findByCi(Ci);
-     * if(!unCliente.isPresent()){
-     * return ResponseEntity.notFound().build();
-     * }
-     * unCliente.get().setNombre(clienteDetails.getNombre());
-     * unCliente.get().setApellido(clienteDetails.getApellido());
-     * unCliente.get().setEmail(clienteDetails.getEmail());
-     * return
-     * ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(unCliente.
-     * get()));
-     * }
-     * 
-     * //Eliminar
-     * 
-     * @DeleteMapping("/bajaCliente/{ci}")
-     * public ResponseEntity<?> delete(@PathVariable int Ci){
-     * Optional<Cliente> cliente = clienteService.findByCi(Ci);
-     * if(!cliente.isPresent()){
-     * return ResponseEntity.notFound().build();
-     * }
-     * clienteService.deleteByCi(Ci);
-     * return ResponseEntity.ok().build();
-     * }
-     * 
-     * //Buscar todos(Traer todos los clientes)
-     * 
-     * @GetMapping("/listarClientes")
-     * public List<Cliente> readAll(){
-     * List<Cliente> clientes = StreamSupport
-     * .stream(clienteService.findAll().spliterator(), false)
-     * .collect(Collectors.toList());
-     * return clientes;
-     * }
-     */
+    /* 
+    @PostMapping(value = "/altaCliente")
+     *public ResponseEntity<?> create(@RequestBody Cliente cliente)
+      {
+     try{
+     return
+     ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(cliente));
+      }catch(Exception e){
+      HashMap<String, String> error = new HashMap<>();
+      error.put("error", e.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+      }
+      }
+      
+      //Buscar por cedula
+      
+      @GetMapping("/buscarCliente/{ci}")
+     
+
+    public ResponseEntity<?> read(@PathVariable(value="ci") int clienteCi){
+      Optional<Cliente> unCliente = clienteService.findByCi(clienteCi);
+      if(!unCliente.isPresent()){
+      return ResponseEntity.notFound().build();
+      }
+      return ResponseEntity.ok(unCliente);
+      }** // Modificar
+    
+
+    @PutMapping("/modificarCliente/{ci}")
+      public ResponseEntity<?> update (@RequestBody Cliente
+      clienteDetails, @PathVariable int Ci){
+      Optional<Cliente> unCliente = clienteService.findByCi(Ci);
+      if(!unCliente.isPresent()){
+      return ResponseEntity.notFound().build();
+      }
+      unCliente.get().setNombre(clienteDetails.getNombre());
+     unCliente.get().setApellido(clienteDetails.getApellido());
+      unCliente.get().setEmail(clienteDetails.getEmail());
+      return
+      ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(unCliente.
+      get()));
+      }
+      
+      //Eliminar
+      
+      @DeleteMapping("/bajaCliente/{ci}")
+     
+
+    public ResponseEntity<?> delete(@PathVariable int Ci){
+      Optional<Cliente> cliente = clienteService.findByCi(Ci);
+      if(!cliente.isPresent()){
+      return ResponseEntity.notFound().build();
+      }
+      clienteService.deleteByCi(Ci);
+      return ResponseEntity.ok().build();
+     } // Buscar todos(Traer todos los clientes)
+    
+
+    @GetMapping("/listarClientes")
+      public List<Cliente> readAll(){
+      List<Cliente> clientes = StreamSupport
+      .stream(clienteService.findAll().spliterator(), false)
+     .collect(Collectors.toList());
+     return clientes;
+      }*/
+
 }

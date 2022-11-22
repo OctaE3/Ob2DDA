@@ -34,10 +34,10 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
                     <h1 class="text-center">Modificar Cliente</h1>
                     <div class="card-body">
-                        <form th:action="@{/modificarCliente/{ci}(ci=${cliente.ci)}" th:object="${cliente}" method="POST">
+                        <form th:action="@{/guardarCliente}" th:object="${cliente}" method="POST">
                             <div class="form-group">
                                 <label>Cédula de Identidad</label>
-                                <input type="numbers" name="ci" th:field="*{ci}" class="form-control" placeholder="Ingrese su cédula(Sin puntos y guiones)" minlength="8" maxlength="8">
+                                <input type="number" name="ci" th:field="*{ci}" class="form-control" placeholder="Ingrese su cédula(Sin puntos y guiones)">
                             </div>
                             <br/>
                             <div class="form-group">

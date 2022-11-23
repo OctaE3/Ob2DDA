@@ -23,9 +23,9 @@ public class ClienteVipServiceImpl implements ClienteVipService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ClienteVip> findByCi(int Ci)
+    public Optional<ClienteVip> findById(Long Id)
     {
-        return clienteVipRepository.findByCi(Ci);
+        return clienteVipRepository.findById(Id);
     }
 
     @Override
@@ -37,9 +37,9 @@ public class ClienteVipServiceImpl implements ClienteVipService {
 
     @Override
     @Transactional
-    public void deleteByCi(int Ci)
+    public void deleteById(Long Id)
     {
-        clienteVipRepository.deleteByCi(Ci);
+        clienteVipRepository.deleteById(Id);
     }
 
     @Override

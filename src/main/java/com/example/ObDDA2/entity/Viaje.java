@@ -10,15 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
 @Entity
 @Table(name = "viajes")
 public class Viaje implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(length = 50)
     private String destino;
@@ -32,14 +30,11 @@ public class Viaje implements Serializable{
     @Column
     private Double precio;
 
-    @Column
-    private Boolean eliminado;
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -75,13 +70,14 @@ public class Viaje implements Serializable{
         this.precio = precio;
     }
 
-    public Boolean isEliminado() {
-        return eliminado;
+    public Viaje() {
     }
 
-    public void setEliminado(Boolean eliminado) {
-        this.eliminado = eliminado;
+    public Viaje(Long id, String destino, Date fecha, String modalidad, Double precio) {
+        this.id = id;
+        this.destino = destino;
+        this.fecha = fecha;
+        this.modalidad = modalidad;
+        this.precio = precio;
     }
-
-    
 }

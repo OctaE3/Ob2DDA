@@ -59,6 +59,15 @@ public class Persona implements Serializable {
         this.email = email;
     }
 
+    public Persona() { }
+
+    public Persona(Long ci, String nombre, String apellido, String email) {
+        this.ci = ci;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email; 
+    }
+
     @ManyToMany
     @JoinTable(
         name = "clientes_viajes",

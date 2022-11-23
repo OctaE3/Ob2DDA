@@ -22,13 +22,13 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/listarViajes}">Viaje</a>
+            <a class="nav-link" th:herf="@{/listarViajes}">Viaje</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" th:href="@{listarClientes}">Cliente</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:href="@{listarClientesVip}">Clientes Vip</a>
+            <a class="nav-link" th:herf="@{/listarViajes}">Clientes Vip</a>
           </li>
         </ul>
       </div>
@@ -37,32 +37,34 @@
   <br />
   <div class="container">
     <div class="row" style="text-align: center;">
-      <h1>Lista de Clientes</h1>
+      <h1>Lista de Viajes</h1>
     </div>
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-3">
-        <a th:href="@{/gestionCliente}" class="btn btn-success btn-md mb-3">Agregar Cliente</a>
+        <a th:href="@{/gestionViaje}" class="btn btn-success btn-md mb-3">Agregar Viaje</a>
       </div>
     </div>
     <table class="table table-striped table-bordered">
       <thead class="table-dark">
         <tr>
-          <th>Cédula</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Email</th>
+          <th>Id</th>
+          <th>Destino</th>
+          <th>Fecha</th>
+          <th>Modalidad</th>
+          <th>Precio</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr th:each="cliente : ${clientes}">
-          <td th:text="${cliente.ci}">Cédula</td>
-          <td th:text="${cliente.nombre}">Nombre</td>
-          <td th:text="${cliente.apellido}">Apellido</td>
-          <td th:text="${cliente.email}">Email</td>
+        <tr th:each="viaje : ${viajes}">
+          <td th:text="${viaje.id}">Id</td>
+          <td th:text="${viaje.destino}">Destino</td>
+          <td th:text="${viaje.fecha}">Fecha</td>
+          <td th:text="${viaje.modalidad}">Modalidad</td>
+          <td th:text="${viaje.precio}">Precio</td>
           <td class="display:flex; justify-content:center; align-items:center;">
-            <a th:href="@{/cargarCliente/} + ${cliente.ci}" class="btn btn-warning">Modificar</a>
-            <a th:href="@{/eliminarCliente/} + ${cliente.ci}" class="btn btn-danger">Eliminar</a>
+            <a th:href="@{/cargarViaje/} + ${viaje.id}" class="btn btn-warning">Modificar</a>
+            <a th:href="@{/eliminarViaje/} + ${viaje.id}" class="btn btn-danger">Eliminar</a>
           </td>
         </tr>
       </tbody>

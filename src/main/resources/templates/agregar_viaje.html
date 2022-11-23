@@ -38,31 +38,31 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-                <h1 class="text-center">Gestión Cliente</h1>
+                <h1 class="text-center">Gestión Viajes</h1>
                 <div class="card-body">
-                    <form th:action="@{/guardarCliente}" th:object="${cliente}" method="POST">
+                    <form th:action="@{/guardarViaje}" th:object="${viaje}" method="POST">
                         <div class="form-group">
-                            <label>Cédula de Identidad</label>
-                            <input type="number" name="ci" th:field="*{ci}" class="form-control"
-                                placeholder="Ingrese su cédula(Sin puntos y guiones)" min="">
+                            <label>Destino</label>
+                            <input type="text" name="destino" th:field="*{destino}" class="form-control"
+                                placeholder="Ingrese el destino">
                         </div>
                         <br />
                         <div class="form-group">
-                            <label>Nombre</label>
-                            <input type="text" name="nombre" th:field="*{nombre}" class="form-control"
-                                placeholder="Ingrese su nombre">
+                            <label>Fecha del Viaje</label>
+                            <input type="date" name="fecha" th:field="*{fecha}" class="form-control"
+                                placeholder="Ingrese la fecha" min="2022-11-05" onfocus="this.min=new Date().toISOString().split('T')[0]">
                         </div>
                         <br />
                         <div class="form-group">
-                            <label>Apellido</label>
-                            <input type="text" name="apellido" th:field="*{apellido}" class="form-control"
-                                placeholder="Ingrese su apellido">
+                            <label>Modalidad</label>
+                            <input type="text" name="modalidad" th:field="*{modalidad}" class="form-control"
+                                placeholder="Ingrese la modalidad">
                         </div>
                         <br />
                         <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" th:field="*{email}" class="form-control"
-                                placeholder="Ingrese su email">
+                            <label>Precio</label>
+                            <input type="numbers" name="precio" th:field="*{precio}" class="form-control"
+                                placeholder="Ingrese el precio">
                         </div>
                         <br />
                         <div class="form-group" style="display:flex; justify-content:center; align-items:center;">

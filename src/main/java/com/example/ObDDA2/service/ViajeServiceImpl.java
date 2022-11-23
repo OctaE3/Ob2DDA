@@ -30,7 +30,7 @@ public class ViajeServiceImpl implements ViajeService{
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public Viaje save(Viaje save){
         return viajeRepository.save(save);
     }

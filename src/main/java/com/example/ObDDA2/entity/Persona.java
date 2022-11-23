@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -68,12 +70,23 @@ public class Persona implements Serializable {
         this.email = email; 
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinTable(
         name = "clientes_viajes",
-        joinColumns = @JoinColumn(name = "cliente_ci"),
-        inverseJoinColumns = @JoinColumn(name = "viaje_id")
+        joinColumns = @JoinColumn(name = "cliente_ci", referencedColumnName = "ci", nullable = false, updatable = false),
+        inverseJoinColumns = @JoinColumn(name = "viaje_id", referencedColumnName = "id", nullable = false, updatable = false)
     )
-    private Set<Viaje> enrolledViajes = new HashSet<>();
+    private Set<Viaje> viajes = new HashSet<>();
 
+    public Set<Viaje> getViajes() {
+        return viajes;
+    }
+
+    public void setViajes(Set<Viaje> viajes) {
+        this.viajes = viajes;
+    }
+
+    public void addViaje(Viaje viaje){
+        this.viajes.add(viaje);
+    }
 }

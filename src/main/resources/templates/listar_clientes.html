@@ -51,6 +51,7 @@
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Email</th>
+          <th>Viajes</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -60,9 +61,11 @@
           <td th:text="${cliente.nombre}">Nombre</td>
           <td th:text="${cliente.apellido}">Apellido</td>
           <td th:text="${cliente.email}">Email</td>
+          <td th:text="${cliente.viajes}">Email</td>
           <td class="display:flex; justify-content:center; align-items:center;">
             <a th:href="@{/cargarCliente/} + ${cliente.ci}" class="btn btn-warning">Modificar</a>
             <a th:href="@{/eliminarCliente/} + ${cliente.ci}" class="btn btn-danger">Eliminar</a>
+            <a th:href="@{/cargarClienteAsignar/} + ${cliente.ci}" class="btn btn-success">Asignar Viajes</a>
           </td>
         </tr>
       </tbody>

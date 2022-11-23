@@ -2,12 +2,16 @@ package com.example.ObDDA2.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,6 +33,9 @@ public class Viaje implements Serializable{
 
     @Column
     private Double precio;
+
+    @ManyToMany(mappedBy = "viajes", fetch = FetchType.LAZY)
+    private Set<Cliente> clientes = new HashSet<>();
 
     public Long getId() {
         return id;

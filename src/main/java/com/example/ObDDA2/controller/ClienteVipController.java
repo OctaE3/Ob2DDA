@@ -13,11 +13,17 @@ import org.springframework.stereotype.Controller;
 import com.example.ObDDA2.entity.ClienteVip;
 import com.example.ObDDA2.service.ClienteVipService;
 
+import com.example.ObDDA2.entity.Viaje;
+import com.example.ObDDA2.service.ViajeService;
+
 @Controller
 public class ClienteVipController {
 
     @Autowired
     private ClienteVipService clienteVipService;
+
+    @Autowired
+    private ViajeService viajeService;
 
     @GetMapping(value = "listarClientesVip")
     public String listarClientesVip(Model modelo) {
@@ -42,6 +48,15 @@ public class ClienteVipController {
         Optional<ClienteVip> clienteVip = clienteVipService.findById(id);   
         modelo.addAttribute("clienteVip", clienteVip);
         return "modificar_cliente";
+    }
+
+    @GetMapping(value = "/cargarClienteVipAsignar/{ci}")
+    public String cargarClienteAsignar(@PathVariable(value = "ci") Long ci, Model modelo) {
+        Optional<ClienteVip> clienteVip = clienteVipService.findById(ci);
+        Iterable<Viaje> listaViajes = viajeService.findAll();
+        modelo.addAttribute("cliente", clienteVip);
+        modelo.addAttribute("listaViajes", listaViajes);
+        return "asignar_viajes_clientes";
     }
 
     @GetMapping(value = "/eliminarClienteVip/{id}")

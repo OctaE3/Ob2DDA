@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "viajes")
@@ -34,8 +37,9 @@ public class Viaje implements Serializable{
     @Column
     private Double precio;
 
-    @ManyToMany(mappedBy = "viajes", fetch = FetchType.LAZY)
-    private Set<Cliente> clientes = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "viajes")
+    @JsonIgnore
+    private Set<Persona> personas = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -75,6 +79,14 @@ public class Viaje implements Serializable{
 
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public Set<Persona> getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(Set<Persona> personas) {
+        this.personas = personas;
     }
 
     public Viaje() {

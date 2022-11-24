@@ -61,7 +61,7 @@
           <td th:text="${cliente.nombre}">Nombre</td>
           <td th:text="${cliente.apellido}">Apellido</td>
           <td th:text="${cliente.email}">Email</td>
-          <td th:text="${cliente.viajes}">Email</td>
+          <td th:text="${cliente.viajes}">Viajes</td>
           <td class="display:flex; justify-content:center; align-items:center;">
             <a th:href="@{/cargarCliente/} + ${cliente.ci}" class="btn btn-warning">Modificar</a>
             <a th:href="@{/eliminarCliente/} + ${cliente.ci}" class="btn btn-danger">Eliminar</a>

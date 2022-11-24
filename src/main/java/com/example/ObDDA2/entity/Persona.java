@@ -6,16 +6,18 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.MappedSuperclass;
 
-
-@MappedSuperclass
-public class Persona implements Serializable {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Persona implements Serializable {
     
     @Id
     private Long ci;
@@ -70,7 +72,7 @@ public class Persona implements Serializable {
         this.email = email; 
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "clientes_viajes",
         joinColumns = @JoinColumn(name = "cliente_ci", referencedColumnName = "ci", nullable = false, updatable = false),
@@ -88,5 +90,6 @@ public class Persona implements Serializable {
 
     public void addViaje(Viaje viaje){
         this.viajes.add(viaje);
+        viaje.getPersonas().add(this);
     }
 }

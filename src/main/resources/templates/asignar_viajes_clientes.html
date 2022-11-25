@@ -27,9 +27,6 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/listarClientes}">Cliente</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{listarClientesVip}">Clientes Vip</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -38,13 +35,13 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-                <h1 class="text-center">Asiganar Viajes</h1>
+                <h1 class="text-center">Asignar Viajes</h1>
                 <div class="card-body">
-                    <form th:action="@{/guardarClienteAsignar}" th:object="${cliente}" method="POST">
+                    <form th:action="@{/guardarClienteAsignar/{ci} (ci=${cliente.ci})}" th:object="${cliente}" method="POST">
                         <div class="form-group">
                             <label>Cédula de Identidad</label>
                             <input type="number" name="ci" th:field="*{ci}" class="form-control"
-                                placeholder="Ingrese su cédula(Sin puntos y guiones)" min="">
+                                placeholder="Ingrese su cédula(Sin puntos y guiones)">
                         </div>
                         <br />
                         <div class="form-group">
@@ -66,7 +63,7 @@
                         </div>
                         <br />
                         <div class="form-group">
-                            <select th:field="${cliente.viajes}" name="viajes" class="form-control" multiple="true"> 
+                            <select th:field="${cliente.viajes}" name="viajes" class="form-control" size="10"> 
                                 <option th:each="viaje : ${listaViajes}" th:value="${viaje.id}" th:text="${viaje.destino}"></option>
                             </select>
                         </div>

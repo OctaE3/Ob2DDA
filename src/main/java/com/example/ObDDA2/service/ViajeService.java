@@ -8,7 +8,7 @@ import com.example.ObDDA2.entity.Viaje;
 
 public interface ViajeService {
     public Iterable<Viaje> findAll();
-    public Optional<Viaje> findById(Long Id);
+    public Viaje findById(Long Id);
     public Viaje save(Viaje viaje);
     public void deleteById(Long Id);
     public Page<Viaje> findAll(Pageable pageable);    

@@ -21,9 +21,6 @@
                   <li class="nav-item">
                     <a class="nav-link" th:href="@{/listarClientes}">Cliente</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" th:herf="@{/listarViajes}">Clientes Vip</a>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -34,7 +31,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
                     <h1 class="text-center">Modificar Viaje</h1>
                     <div class="card-body">
-                        <form th:action="@{/guardarViaje}" th:object="${viaje}" method="POST">
+                        <form th:action="@{/modificarViaje/{id} (id=${viaje.id})}" th:object="${viaje}" method="POST">
                                 <input type="hidden" name="id" th:field="*{id}" class="form-control">
                             <div class="form-group">
                                 <label>Destino</label>

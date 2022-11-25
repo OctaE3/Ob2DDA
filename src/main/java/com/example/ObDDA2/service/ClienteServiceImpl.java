@@ -23,9 +23,15 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Cliente> findById(Long Ci)
+    public Cliente findById(Long Ci)
     {
-        return clienteRepository.findById(Ci);
+        Iterable<Cliente> listaClientes = clienteRepository.findAll();
+        for (Cliente cliente : listaClientes) {
+            if(cliente.getCi().equals(Ci)){
+                return cliente;
+            }
+        }
+        return null;
     }
 
     @Override

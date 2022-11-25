@@ -27,9 +27,6 @@
           <li class="nav-item">
             <a class="nav-link" th:href="@{listarClientes}">Cliente</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{listarClientesVip}">Clientes Vip</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -51,6 +48,7 @@
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Email</th>
+          <th>Tipo</th>
           <th>Viajes</th>
           <th>Acciones</th>
         </tr>
@@ -61,6 +59,7 @@
           <td th:text="${cliente.nombre}">Nombre</td>
           <td th:text="${cliente.apellido}">Apellido</td>
           <td th:text="${cliente.email}">Email</td>
+          <td th:text="${cliente.tipo}">Tipo</td>
           <td th:text="${cliente.viajes}">Viajes</td>
           <td class="display:flex; justify-content:center; align-items:center;">
             <a th:href="@{/cargarCliente/} + ${cliente.ci}" class="btn btn-warning">Modificar</a>

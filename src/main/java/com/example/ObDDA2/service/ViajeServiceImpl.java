@@ -25,8 +25,14 @@ public class ViajeServiceImpl implements ViajeService{
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Viaje> findById(Long Id){
-        return viajeRepository.findById(Id);
+    public Viaje findById(Long Id){
+        Iterable<Viaje> listaViajes = viajeRepository.findAll();
+        for (Viaje viaje : listaViajes) {
+            if(viaje.getId().equals(Id)){
+                return viaje;
+            }
+        }
+        return null;
     }
 
     @Override

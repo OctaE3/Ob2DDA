@@ -15,10 +15,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "viajes")
+@SQLDelete(sql = "UPDATE viajes SET eliminado = true WHERE id = ?", check = ResultCheckStyle.NONE)
+@Where(clause = "eliminado = false")
 public class Viaje implements Serializable{
     
     @Id
@@ -37,9 +43,11 @@ public class Viaje implements Serializable{
     @Column
     private Double precio;
 
+    private boolean eliminado = false;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "viajes")
     @JsonIgnore
-    private Set<Persona> personas = new HashSet<>();
+    private Set<Cliente> clientes = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -81,22 +89,32 @@ public class Viaje implements Serializable{
         this.precio = precio;
     }
 
-    public Set<Persona> getPersonas() {
-        return personas;
+    public Set<Cliente> getClientes() {
+        return clientes;
     }
 
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
+    public void setClientes(Set<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
     }
 
     public Viaje() {
     }
 
-    public Viaje(Long id, String destino, Date fecha, String modalidad, Double precio) {
+    public Viaje(Long id, String destino, Date fecha, String modalidad, Double precio, boolean eliminado) {
         this.id = id;
         this.destino = destino;
         this.fecha = fecha;
         this.modalidad = modalidad;
         this.precio = precio;
+        this.eliminado = eliminado;
     }
+
 }

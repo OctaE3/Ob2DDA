@@ -21,9 +21,6 @@
                   <li class="nav-item">
                     <a class="nav-link" th:href="@{/listarClientes}">Cliente</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" th:herf="@{/listarViajes}">Clientes Vip</a>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -34,12 +31,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
                     <h1 class="text-center">Modificar Cliente</h1>
                     <div class="card-body">
-                        <form th:action="@{/guardarCliente}" th:object="${cliente}" method="POST">
-                            <div class="form-group">
-                                <label>Cédula de Identidad</label>
-                                <input type="number" name="ci" th:field="*{ci}" class="form-control" placeholder="Ingrese su cédula(Sin puntos y guiones)">
-                            </div>
-                            <br/>
+                        <form th:action="@{/modificarCliente/{ci} (ci=${cliente.ci})}" th:object="${cliente}" method="POST">
                             <div class="form-group">
                                 <label>Nombre</label>
                                 <input type="text" name="nombre" th:field="*{nombre}" class="form-control" placeholder="Ingrese su nombre">

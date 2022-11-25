@@ -5,13 +5,15 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
 import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.service.ClienteService;
+import com.example.ObDDA2.service.ClienteServiceImpl;
 
-import com.example.ObDDA2.entity.ClienteVip;
-import com.example.ObDDA2.service.ClienteVipService;
+import com.example.ObDDA2.repository.ClienteRepository;
 
 import com.example.ObDDA2.entity.Viaje;
 import com.example.ObDDA2.service.ViajeService;
@@ -26,19 +28,35 @@ public class AsignarViajeController {
     private ClienteService clienteService;
 
     @Autowired
-    private ClienteVipService clienteVipService;
+    private ClienteRepository clienteRepository;
 
-    @PostMapping(value = "/guardarClienteAsignar")
-    public String guardarCliente(@ModelAttribute("cliente") Cliente cliente, @ModelAttribute("cliente") ClienteVip clienteVip) {
-        if(clienteService.findById(cliente.getCi()) != null)
-        {
-            clienteService.save(cliente);
+    @Autowired
+    private ClienteServiceImpl clienteServiceImpl;
+
+    @PostMapping(value = "/guardarClienteAsignar/{ci}")
+    public String guardarCliente(@PathVariable(value = "ci") Long ci, @ModelAttribute("cliente") Cliente cliente, Model modelo) {
+        try{
+            Cliente cli = clienteServiceImpl.findById(ci);
+            List<Viaje> listaViajes = clienteRepository.findViajesByClienteCi(ci);
+            if(cli != null){
+              cli.setCi(ci);
+              cli.setNombre(cliente.getNombre());
+              cli.setApellido(cliente.getApellido());
+              cli.setEmail(cliente.getEmail());
+              cli.setTipo(cliente.getTipo());
+              for (Viaje viaje2 : cliente.getViajes()) {
+                listaViajes.add(viaje2);
+              }
+              for (Viaje viaje : listaViajes) {
+                cli.addViaje(viaje);
+              }
+    
+              clienteService.save(cli);
+              return "redirect:/listarClientes";
+            }
             return "redirect:/listarClientes";
-        }
-        else
-        {
-            clienteVipService.save(clienteVip);
-            return "redirect:/listarClientesVip";
-        }
+          }catch(Exception e){
+            return "redirect:/listarClientes";
+          }
     }
 }

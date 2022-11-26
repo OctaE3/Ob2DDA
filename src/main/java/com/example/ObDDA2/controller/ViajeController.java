@@ -1,5 +1,7 @@
 package com.example.ObDDA2.controller;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import com.example.ObDDA2.entity.Viaje;
 import com.example.ObDDA2.repository.ViajeRepository;
 import com.example.ObDDA2.service.ViajeService;
 import com.example.ObDDA2.service.ViajeServiceImpl;
+
 
 
 @Controller
@@ -55,15 +58,20 @@ public class ViajeController {
     @GetMapping(value = "/cargarViaje/{id}")
     public String cargarViaje(@PathVariable(value = "id") Long id, Model modelo) {
         Viaje viaje = viajeServiceImpl.findById(id);
+        List<String> mod = new ArrayList<>();
+        mod.add("Terrestre");
+        mod.add("Maritimo");
+        mod.add("Aereo");
         modelo.addAttribute("viaje", viaje);
+        modelo.addAttribute("listaMod", mod);
         return "modificar_viaje";
     }
 
     @PostMapping(value = "/modificarViaje/{id}")
     public String updateViaje(@PathVariable(value = "id") Long id,@Validated @ModelAttribute("viaje") Viaje viaje, Model modelo, BindingResult bindingResult, RedirectAttributes redirect){
         Viaje viajeExistente = viajeServiceImpl.findById(id);
-        if(bindingResult.hasErrors()){
-            return "modificar_viaje";
+        if(bindingResult.hasErrors()){            
+            return "index";
         }
         viajeExistente.setId(id);
         viajeExistente.setDestino(viaje.getDestino());

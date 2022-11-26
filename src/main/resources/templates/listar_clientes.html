@@ -38,6 +38,13 @@
   <div class="container">
     <div class="row" style="text-align: center;">
       <h1>Lista de Clientes</h1>
+      
+      <div th:if="${msgExito != null}"
+			  class="alert alert-success alert-dismissible">
+			  [[${msgExito}]]
+			  <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
+		  </div>
+
     </div>
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-3">

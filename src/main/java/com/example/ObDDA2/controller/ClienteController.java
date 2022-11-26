@@ -14,6 +14,8 @@ import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.service.ClienteService;
 import com.example.ObDDA2.service.ClienteServiceImpl;
 import com.example.ObDDA2.entity.Viaje;
+import com.example.ObDDA2.entity.Persona;
+import com.example.ObDDA2.repository.ClienteRepository;
 import com.example.ObDDA2.repository.ViajeRepository;
 
 @Controller
@@ -27,6 +29,9 @@ public class ClienteController {
 
     @Autowired
     private ViajeRepository viajeRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @GetMapping(value = "/listarClientes")
     public String listarClientes(Model modelo) {
@@ -44,6 +49,13 @@ public class ClienteController {
     public String guardarCliente(@Validated @ModelAttribute("cliente") Cliente cliente, BindingResult bindingResult,
     RedirectAttributes redirect) {
       try{
+        Iterable<Persona> listaPersona = clienteRepository.findAllPersonas();
+        for (Persona persona : listaPersona) {
+          if(cliente.getCi() == persona.getCi() || cliente.getEmail() == persona.getEmail()){
+            redirect.addFlashAttribute("msgError", "Cliente ya registrado");
+            return "agregar_cliente";
+          }
+        }
           if(bindingResult.hasErrors())
           {
               return "agregar_cliente";

@@ -29,7 +29,7 @@ public abstract class Persona implements Serializable {
     @Min(10000000)
     @Max(99999999)
     @NotNull(message = "Debe ingresar cedula")
-    @Column(length = 8, unique = true, nullable = false)
+    @Column(length = 8, unique = false, nullable = false)
     private Long ci;
 
     @NotBlank(message = "Debe ingresar nombre")

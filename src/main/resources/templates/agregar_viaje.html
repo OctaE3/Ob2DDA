@@ -13,7 +13,6 @@
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
     <nav class="navbar navbar-expand-lg" style="background-color: #C0EEFF;">
-        <div class="container-fluid">
             <a class="navbar-brand" href="#">Turismo 2022</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,27 +38,30 @@
                 <div class="card-body">
                     <form th:action="@{/guardarViaje}" th:object="${viaje}" method="POST">
                         <div class="form-group">
-                            <label>Destino</label>
-                            <input type="text" name="destino" th:field="*{destino}" class="form-control"
-                                placeholder="Ingrese el destino">
+                            <label for="destino">Destino</label>
+                            <input type="text" id="destino" name="destino" th:field="*{destino}" class="form-control"
+                                placeholder="Ingrese el destino" th:errorClass="is-invalid">
+                            <div th:if="${#fields.hasErrors('destino')}" th:errors="*{destino}" class="invalid-feedback"></div>     
                         </div>
                         <br />
                         <div class="form-group">
-                            <label>Fecha del Viaje</label>
-                            <input type="date" name="fecha" th:field="*{fecha}" class="form-control"
+                            <label for="fecha">Fecha del Viaje</label>
+                            <input type="date" id="fecha" name="fecha" th:field="*{fecha}" class="form-control" required="true"
                                 placeholder="Ingrese la fecha" min="2022-11-05" onfocus="this.min=new Date().toISOString().split('T')[0]">
                         </div>
                         <br />
                         <div class="form-group">
-                            <label>Modalidad</label>
-                            <input type="text" name="modalidad" th:field="*{modalidad}" class="form-control"
-                                placeholder="Ingrese la modalidad">
+                            <label for="modalidad">Modalidad</label>
+                            <input type="text" id="modalidad" name="modalidad" th:field="*{modalidad}" class="form-control"
+                                placeholder="Ingrese la modalidad" th:errorClass="is-invalid">
+                            <div th:if="${#fields.hasErrors('modalidad')}" th:errors="*{modalidad}" class="invalid-feedback"></div>
                         </div>
                         <br />
                         <div class="form-group">
-                            <label>Precio</label>
-                            <input type="numbers" name="precio" th:field="*{precio}" class="form-control"
-                                placeholder="Ingrese el precio">
+                            <label for="precio">Precio USD</label>
+                            <input type="numbers" id="precio" name="precio" th:field="*{precio}" class="form-control"
+                                placeholder="Ingrese el precio" th:errorClass="is-invalid">
+                            <div th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}" class="invalid-feedback"></div>
                         </div>
                         <br />
                         <div class="form-group" style="display:flex; justify-content:center; align-items:center;">
@@ -70,6 +72,7 @@
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

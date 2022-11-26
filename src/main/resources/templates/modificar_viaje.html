@@ -34,9 +34,10 @@
                         <form th:action="@{/modificarViaje/{id} (id=${viaje.id})}" th:object="${viaje}" method="POST">
                                 <input type="hidden" name="id" th:field="*{id}" class="form-control">
                             <div class="form-group">
-                                <label>Destino</label>
-                                <input type="text" name="destino" th:field="*{destino}" class="form-control">
-                            </div>
+                              <label for="destino">Destino</label>
+                            <input type="text" id="destino" name="destino" th:field="*{destino}" class="form-control" th:errorClass="is-invalid">
+                            <div th:if="${#fields.hasErrors('destino')}" th:errors="*{destino}" class="invalid-feedback"></div>     
+                        </div>
                             <br/>
                             <div class="form-group">
                                 <label>Fecha</label>

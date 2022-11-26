@@ -39,27 +39,31 @@
                 <div class="card-body">
                     <form th:action="@{/guardarCliente}" th:object="${cliente}" method="POST">
                         <div class="form-group">
-                            <label>Cédula de Identidad</label>
-                            <input type="number" name="ci" th:field="*{ci}" class="form-control"
-                                placeholder="Ingrese su cédula(Sin puntos y guiones)" min="">
+                            <label for="ci">Cédula de Identidad</label>
+                            <input type="number" id="ci" name="ci" th:field="*{ci}" class="form-control"
+                                placeholder="Ingrese su cédula(Sin puntos y guiones)" th:errorClass="is-invalid">
+                            <div th:if="${#fields.hasErrors('ci')}" th:errors="*{ci}" class="invalid-feedback"></div>
                         </div>
                         <br />
                         <div class="form-group">
-                            <label>Nombre</label>
-                            <input type="text" name="nombre" th:field="*{nombre}" class="form-control"
-                                placeholder="Ingrese su nombre">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" th:field="*{nombre}" class="form-control"
+                                placeholder="Ingrese su nombre" th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="invalid-feedback"></div>
                         </div>
                         <br />
                         <div class="form-group">
-                            <label>Apellido</label>
-                            <input type="text" name="apellido" th:field="*{apellido}" class="form-control"
-                                placeholder="Ingrese su apellido">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" name="apellido" th:field="*{apellido}" class="form-control"
+                                placeholder="Ingrese su apellido" th:errorClass="is-invalid">
+                                <div th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="invalid-feedback"></div>
                         </div>
                         <br />
                         <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" th:field="*{email}" class="form-control"
-                                placeholder="Ingrese su email">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" th:field="*{email}" class="form-control"
+                                placeholder="Ingrese su email" th:errorClass="is-invalid">
+                            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
                         </div>
                         <br />
                         <div class="form-group" style="display:flex; justify-content:center; align-items:center;">

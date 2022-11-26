@@ -1,11 +1,16 @@
 package com.example.ObDDA2.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
 import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.service.ClienteService;
@@ -38,14 +43,17 @@ public class ClienteController {
     }
 
     @PostMapping(value = "/guardarCliente" )
-    public String guardarCliente(@ModelAttribute("cliente") Cliente cliente) {
+    public String guardarCliente(@Validated @ModelAttribute("cliente") Cliente cliente, BindingResult bindingResult,
+    RedirectAttributes redirect) {
       try{
-        Cliente cli = clienteServiceImpl.findById(cliente.getCi());
-        if(cli == null){
+          if(bindingResult.hasErrors())
+          {
+              return "agregar_cliente";
+          }
           clienteService.save(cliente);
+          redirect.addFlashAttribute("msgExito", "El cliente fue agregado con exito");
           return "redirect:/listarClientes";
-        }
-        return "redirect:/gestionCliente";
+      
       }catch(Exception e){
         System.out.println(e);
         return "redirect:/gestionCliente";

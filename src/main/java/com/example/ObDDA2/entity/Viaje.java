@@ -1,10 +1,8 @@
 package com.example.ObDDA2.entity;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,12 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "viajes")
@@ -31,15 +28,19 @@ public class Viaje implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Debe ingresar nombre de destino")
     @Column(length = 50)
     private String destino;
-
+    
+    @NotNull(message = "Debe ingresar fecha")
     @Column
     private Date fecha;
 
+    @Pattern(regexp = "Maritimo|Terrestre|Aereo", message = "Las modalidades son Maritimo, Terrestre y Aereo")
     @Column(length = 9)
     private String modalidad;
 
+    @NotNull(message = "Debe ingresar precio")
     @Column
     private Double precio;
 

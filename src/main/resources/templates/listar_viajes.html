@@ -34,6 +34,13 @@
   <br />
   <div class="container">
     <div class="row" style="text-align: center;">
+
+      <div th:if="${msgExito != null}"
+			  class="alert alert-success alert-dismissible">
+			  [[${msgExito}]]
+			  <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
+		  </div>
+
       <h1>Lista de Viajes</h1>
     </div>
     <div class="row">

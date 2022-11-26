@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.*;
+
 
 @Entity
 @Table(name = "clientes")
@@ -24,15 +26,22 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(10000000)
+    @Max(99999999)
+    @NotNull(message = "Debe ingresar cedula")
     @Column(length = 8, unique = true, nullable = false)
     private Long ci;
 
+    @NotBlank(message = "Debe ingresar nombre")
     @Column(length = 50)
     private String nombre;
 
+    @NotBlank(message = "Debe ingresar apellido")
     @Column(length = 50)
     private String apellido;
 
+    @NotBlank(message = "Debe ingresar mail")
+    @Email
     @Column(name = "mail", nullable = false, length = 50, unique = true)
     private String email;
 

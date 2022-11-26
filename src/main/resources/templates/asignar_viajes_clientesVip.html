@@ -40,7 +40,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
                 <h1 class="text-center">Asignar Viajes</h1>
                 <div class="card-body">
-                    <form th:action="@{/guardarClienteAsignar/{ci} (ci=${cliente.ci})}" th:object="${cliente}" method="POST">
+                    <form th:action="@{/guardarClienteVipAsignar/{ci} (ci=${clienteVip.ci})}" th:object="${clienteVip}" method="POST">
                         <input type="hidden" name="id" th:field="*{id}" class="form-control">
                         <div class="form-group">
                             <label>Cédula de Identidad</label>
@@ -67,7 +67,7 @@
                         </div>
                         <br />
                         <div class="form-group">
-                            <select th:field="${cliente.viajes}" name="viajes" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" size="10"> 
+                            <select th:field="${clienteVip.viajes}" name="viajes" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" size="10"> 
                                 <option th:each="viaje : ${listaViajes}" th:value="${viaje.id}" th:text="${'Destino:'} + ${' '} + ${viaje.destino} + ${' '} + ${'-'} + ${' '} + ${'Precio:'}  + ${' '} + ${viaje.precio}"></option>
                             </select>
                         </div>

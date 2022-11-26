@@ -1,7 +1,5 @@
 package com.example.ObDDA2.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +14,7 @@ import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.service.ClienteService;
 import com.example.ObDDA2.service.ClienteServiceImpl;
 import com.example.ObDDA2.entity.Viaje;
-import com.example.ObDDA2.service.ViajeService;
+import com.example.ObDDA2.repository.ViajeRepository;
 
 @Controller
 public class ClienteController {
@@ -28,7 +26,7 @@ public class ClienteController {
     private ClienteServiceImpl clienteServiceImpl;
 
     @Autowired
-    private ViajeService viajeService;
+    private ViajeRepository viajeRepository;
 
     @GetMapping(value = "/listarClientes")
     public String listarClientes(Model modelo) {
@@ -97,7 +95,7 @@ public class ClienteController {
     @GetMapping(value = "/cargarClienteAsignar/{ci}")
     public String cargarClienteAsignar(@PathVariable(value = "ci") Long ci, Model modelo) {
         Cliente cliente = clienteServiceImpl.findById(ci);
-        Iterable<Viaje> listaViajes = viajeService.findAll();
+        Iterable<Viaje> listaViajes = viajeRepository.findViajesNotInViajesCliente(cliente.getId());
         modelo.addAttribute("cliente", cliente);
         modelo.addAttribute("listaViajes", listaViajes);
         return "asignar_viajes_clientes";

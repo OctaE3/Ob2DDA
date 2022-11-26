@@ -16,7 +16,9 @@ import com.example.ObDDA2.service.ClienteServiceImpl;
 import com.example.ObDDA2.entity.ClienteVip;
 import com.example.ObDDA2.service.ClienteVipService;
 import com.example.ObDDA2.service.ClienteVipServiceImpl;
+import com.example.ObDDA2.service.ViajeServiceImpl;
 import com.example.ObDDA2.repository.ViajeRepository;
+
 
 import com.example.ObDDA2.entity.Viaje;
 
@@ -28,6 +30,9 @@ public class AsignarViajeController {
 
     @Autowired
     private ViajeRepository viajeRepository;
+
+    @Autowired
+    private ViajeServiceImpl viajeServiceImpl;
 
     @Autowired
     private ClienteServiceImpl clienteServiceImpl;
@@ -102,10 +107,11 @@ public class AsignarViajeController {
       return "eliminar_viajes_clientes";
     }
 
-    @GetMapping(value = "/eliminarClientes/{cid}/viaje/{vid}")
-    public String eliminarClienteViaje(@PathVariable(value = "cid") Long clienteId, @PathVariable(value = "vid") Long viajeId) {
-        viajeRepository.deleteViajeClienteById(clienteId, viajeId);
-        return "redirect:/cargarViajesClienteVip/{ci}";
+    @GetMapping(value = "/eliminarViaje/{id}/cliente/{ci}")
+    public String eliminarClienteViaje(@PathVariable Long ci, @PathVariable Long id) {
+        Cliente cliente = clienteService.findById(ci);
+        viajeServiceImpl.deleteViajeClienteById(cliente.getId(), id);
+        return "redirect:/cargarViajesCliente/{ci}";
     }
 
     @GetMapping(value = "/cargarViajesClienteVip/{ci}")
@@ -114,12 +120,13 @@ public class AsignarViajeController {
       Iterable<Viaje> listaClientesViajes = viajeRepository.findViajesByClienteId(clienteVip.getId());
       modelo.addAttribute("cliente", clienteVip);
       modelo.addAttribute("clientesViajes", listaClientesViajes);
-      return "eliminar_viajes_clientes";
+      return "eliminar_viajes_clientesVip";
     }
 
-    @GetMapping(value = "/eliminarClientesVipViajes/{ci}")
-    public String eliminarClienteVipViaje(@PathVariable Long id) {
-      
-      return "redirect:/listarClientesVip";
+    @GetMapping(value = "/eliminarViaje/{id}/clienteVip/{ci}")
+    public String eliminarClienteVipViaje(@PathVariable Long ci, @PathVariable Long id) {
+        ClienteVip clienteVip = clienteVipService.findById(ci);
+        viajeServiceImpl.deleteViajeClienteById(clienteVip.getId(), id);
+        return "redirect:/cargarViajesClienteVip/{ci}";
     }
 }

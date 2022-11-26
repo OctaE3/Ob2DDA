@@ -45,6 +45,11 @@ public class ViajeServiceImpl implements ViajeService{
     public void deleteById(Long Id){
         viajeRepository.deleteById(Id);
     }
+    
+    @Transactional
+    public void deleteViajeClienteById(Long icC, Long idV){
+        viajeRepository.deleteViajeClienteById(idV, idV);
+    }
 
     @Override
     public Page<Viaje> findAll(Pageable pageable){

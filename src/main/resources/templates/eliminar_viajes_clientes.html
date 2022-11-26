@@ -37,12 +37,13 @@
   <br />
   <div class="container">
     <div class="row" style="text-align: center;">
-      <h1>Viajes del Cliente Vip Seleccionado</h1>
+      <h1>Viajes del Cliente Seleccionado</h1>
     <table class="table table-striped table-bordered">
       <thead class="table-dark">
         <tr>
             <th>Cédula</th>
             <th>Nombre</th>
+            <th>Id Viaje</th>
             <th>Destino</th>
             <th>Precio</th>
             <th>Fecha</th>
@@ -54,12 +55,13 @@
         <tr th:each="viaje : ${clientesViajes}">
           <td th:text="${cliente.ci}">Cédula</td>
           <td th:text="${cliente.nombre}">Nombre</td>
+          <td th:text="${viaje.id}">Id Viaje</td>
           <td th:text="${viaje.destino}">Destino</td>
           <td th:text="${viaje.precio}">Precio</td>
           <td th:text="${viaje.fecha}">Fecha</td>
           <td th:text="${viaje.modalidad}">Modalidad</td>
           <td class="display:flex; justify-content:center; align-items:center;">
-            <a th:href="@{/eliminarClientes/{cliente.id} + @{viaje/} + ${viaje.id})" class="btn btn-danger">Eliminar Viaje</a>
+            <a th:href="@{'/eliminarViaje/' + ${viaje.id} + '/cliente/' + ${cliente.ci}}" class="btn btn-danger">Eliminar Viaje</a>
           </td>
         </tr>
       </tbody>

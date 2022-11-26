@@ -21,7 +21,7 @@ public interface ViajeRepository extends JpaRepository<Viaje, Long> {
     @Query(value = "SELECT v.* FROM viajes v INNER JOIN clientes_viajes cv ON v.id = cv.viaje_id WHERE cv.cliente_id = :clienteId", nativeQuery = true)
     public List<Viaje> findViajesByClienteId(@Param("clienteId") Long clienteId);
 
-    @Query(value = "DELETE FROM clietes_viajes cv WHERE cv.cliente_id = :clienteId AND cv.viaje_id = :viajeId", nativeQuery = true)
     @Modifying
+    @Query(value = "DELETE FROM clientes_viajes WHERE cliente_id = :clienteId AND viaje_id = :viajeId", nativeQuery = true)
     public void deleteViajeClienteById(@Param("clienteId") Long clienteId, @Param("viajeId") Long viajeId);
 }

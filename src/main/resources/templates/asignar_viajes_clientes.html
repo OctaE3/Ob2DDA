@@ -42,29 +42,29 @@
                         <div class="form-group">
                             <label>Cédula de Identidad</label>
                             <input type="number" name="ci" th:field="*{ci}" class="form-control"
-                                placeholder="Ingrese su cédula(Sin puntos y guiones)">
+                                placeholder="Ingrese su cédula(Sin puntos y guiones)" readonly="true">
                         </div>
                         <br />
                         <div class="form-group">
                             <label>Nombre</label>
                             <input type="text" name="nombre" th:field="*{nombre}" class="form-control"
-                                placeholder="Ingrese su nombre">
+                                placeholder="Ingrese su nombre" readonly="true">
                         </div>
                         <br />
                         <div class="form-group">
                             <label>Apellido</label>
-                            <input type="text" name="apellido" th:field="*{apellido}" class="form-control"
-                                placeholder="Ingrese su apellido">
+                            <input type="text" name="apellido" th:field="*{apellido}" class="form-control" 
+                                placeholder="Ingrese su apellido" readonly="true">
                         </div>
                         <br />
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email" name="email" th:field="*{email}" class="form-control"
-                                placeholder="Ingrese su email">
+                                placeholder="Ingrese su email" readonly="true">
                         </div>
                         <br />
                         <div class="form-group">
-                            <select th:field="${cliente.viajes}" name="viajes" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" size="10"> 
+                            <select th:field="${cliente.viajes}" name="viajes" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" size="10" required="true"> 
                                 <option th:each="viaje : ${listaViajes}" th:value="${viaje.id}" th:text="${'Destino:'} + ${' '} + ${viaje.destino} + ${' '} + ${'-'} + ${' '} + ${'Precio:'}  + ${' '} + ${viaje.precio}"></option>
                             </select>
                         </div>

@@ -2,6 +2,8 @@ package com.example.ObDDA2.controller;
 
 import java.util.*;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,29 +40,50 @@ public class AsignarViajeController {
       Model modelo) {
     try {
       int cont = 0;
-      Cliente cli = clienteServiceImpl.findById(ci);
+      int contDesc = 0;
+      Cliente cli = clienteServiceImpl.findById(ci); 
       List<Viaje> listaViajes = viajeRepository.findViajesByClienteId(ci);
-      if (cli != null) {
-        cli.setCi(ci);
-        cli.setId(cliente.getId());
-        cli.setNombre(cliente.getNombre());
-        cli.setApellido(cliente.getApellido());
-        cli.setEmail(cliente.getEmail());
-        for (Viaje viaje2 : cliente.getViajes()) {
-          listaViajes.add(viaje2);
-        }
-        for (Viaje viaje : listaViajes) {
-          cli.addViaje(viaje);
-        }
-        for (var i = 0; i < cli.getViajes().size(); i++) {
-          cont = cont + 1;
-        }
-        if(cont > 3){
-          cli.setTipo("Vip");
-        }
-        clienteService.save(cli);
-        return "redirect:/listarClientes";
+      for (var i = 0; i < cli.getViajes().size(); i++) {
+        contDesc = contDesc + 1;
       }
+      if(contDesc >= 3){
+        if (cli != null) {
+          cli.setCi(ci);
+          cli.setId(cliente.getId());
+          cli.setNombre(cliente.getNombre());
+          cli.setApellido(cliente.getApellido());
+          cli.setEmail(cliente.getEmail()); 
+          for (Viaje viaje2 : cliente.getViajes()) {
+            listaViajes.add(viaje2);
+          }
+          for (Viaje viaje : listaViajes) {
+            Double precio = viaje.getPrecio() * 0.80;
+            viaje.setPrecio(precio);
+            cli.addViaje(viaje);
+          }
+        }
+      }else{
+        if (cli != null) {
+          cli.setCi(ci);
+          cli.setId(cliente.getId());
+          cli.setNombre(cliente.getNombre());
+          cli.setApellido(cliente.getApellido());
+          cli.setEmail(cliente.getEmail());
+          for (Viaje viaje2 : cliente.getViajes()) {
+            listaViajes.add(viaje2);
+          }
+          for (Viaje viaje : listaViajes) {
+            cli.addViaje(viaje);
+          }
+          for (var i = 0; i < cli.getViajes().size(); i++) {
+            cont = cont + 1;
+          }
+          if(cont > 3){
+            cli.setTipo("Vip");
+          }
+        }
+      }
+      clienteService.save(cli);
       return "redirect:/listarClientes";
     } catch (Exception e) {
       System.out.println(e);

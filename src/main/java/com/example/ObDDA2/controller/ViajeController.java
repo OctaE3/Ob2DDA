@@ -1,15 +1,21 @@
 package com.example.ObDDA2.controller;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
 import com.example.ObDDA2.entity.Viaje;
@@ -18,8 +24,6 @@ import com.example.ObDDA2.repository.ViajeRepository;
 import com.example.ObDDA2.service.ClienteService;
 import com.example.ObDDA2.service.ViajeService;
 import com.example.ObDDA2.service.ViajeServiceImpl;
-
-
 
 @Controller
 public class ViajeController {
@@ -103,10 +107,10 @@ public class ViajeController {
         return "consulta_cliente";
     }
 
-    @GetMapping(value="/clienteCosulta/{ci}/fecha/{fecha}")
-    public String consultaClienteFecha(@PathVariable(value = "ci") Long ci, @ModelAttribute(value = "viajes") Viaje viajes, @ModelAttribute(value = "viaje") Viaje viaje, Model modelo){
+    @RequestMapping(value="/clienteCosultaFecha/{ci}")
+    public String consultaClienteFecha(@PathVariable(value = "ci") Long ci, @PathVariable(value = "fecha") Date fecha, @ModelAttribute(value = "viaje") Viaje viaje, Model modelo){
         Cliente cliente = clienteService.findById(ci);
-        viaje = viajeRepository.findViajeByClienteIdAndViajeFecha(viajes.getFecha(),cliente.getId());
+        viaje = viajeRepository.findViajeByClienteIdAndViajeFecha(fecha,cliente.getId());
         modelo.addAttribute("viaje", viaje);
         return "consulta_cliente";
     }

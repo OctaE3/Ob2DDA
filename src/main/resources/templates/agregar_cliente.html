@@ -27,9 +27,6 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/listarClientes}">Cliente</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/listarClientesVip}">Cliente Vip</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -38,9 +35,9 @@
     <div class="container">
         
         
-        <div th:if="${msgExito != null}"
-        class="alert alert-success alert-dismissible">
-        [[${msgExito}]]
+        <div th:if="${msgError != null}"
+        class="alert alert-danger alert-dismissible" style="text-align: center;">
+        [[${msgError}]]
         <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
         </div>
         

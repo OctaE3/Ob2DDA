@@ -27,9 +27,6 @@
           <li class="nav-item">
             <a class="nav-link" th:href="@{listarClientes}">Cliente</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/listarClientesVip}">Cliente Vip</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -74,6 +71,7 @@
             <a th:href="@{/eliminarCliente/} + ${cliente.ci}" class="btn btn-danger">Eliminar</a>
             <a th:href="@{/cargarClienteAsignar/} + ${cliente.ci}" class="btn btn-success">Asignar Viaje</a>
             <a th:href="@{/cargarViajesCliente/} + ${cliente.ci}" class="btn btn-primary">Ver Viajes</a>
+            <a th:href="@{/consultaCliente/} + ${cliente.ci}" class="btn btn-primary">Consulta Fecha</a>
           </td>
         </tr>
       </tbody>

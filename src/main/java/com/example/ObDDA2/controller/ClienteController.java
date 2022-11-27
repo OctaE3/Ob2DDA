@@ -14,112 +14,107 @@ import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.service.ClienteService;
 import com.example.ObDDA2.service.ClienteServiceImpl;
 import com.example.ObDDA2.entity.Viaje;
-import com.example.ObDDA2.entity.Persona;
-import com.example.ObDDA2.repository.ClienteRepository;
 import com.example.ObDDA2.repository.ViajeRepository;
 
 @Controller
 public class ClienteController {
 
-    @Autowired
-    private ClienteService clienteService;
+  @Autowired
+  private ClienteService clienteService;
 
-    @Autowired
-    private ClienteServiceImpl clienteServiceImpl;
+  @Autowired
+  private ClienteServiceImpl clienteServiceImpl;
 
-    @Autowired
-    private ViajeRepository viajeRepository;
+  @Autowired
+  private ViajeRepository viajeRepository;
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+  @GetMapping(value = "/listarClientes")
+  public String listarClientes(Model modelo) {
+    modelo.addAttribute("clientes", clienteService.findAll());
+    return "listar_clientes";
+  }
 
-    @GetMapping(value = "/listarClientes")
-    public String listarClientes(Model modelo) {
-        modelo.addAttribute("clientes", clienteService.findAll());
-        return "listar_clientes";
-    }
+  @GetMapping(value = "/gestionCliente")
+  public String gestionCliente(Model modelo) {
+    modelo.addAttribute("cliente", new Cliente());
+    return "agregar_cliente";
+  }
 
-    @GetMapping(value = "/gestionCliente")
-    public String gestionCliente(Model modelo) {
-        modelo.addAttribute("cliente", new Cliente());
+  @PostMapping(value = "/guardarCliente")
+  public String guardarCliente(@Validated @ModelAttribute("cliente") Cliente cliente, BindingResult bindingResult,
+      RedirectAttributes redirect) {
+    try {
+      Iterable<Cliente> listaCliente = clienteService.findAll();
+      for (Cliente cli : listaCliente) {
+        if (cli.getCi().equals(cliente.getCi()) || cli.getEmail().equals(cliente.getEmail())) {
+          redirect.addFlashAttribute("msgError", "Error : La cédula o el email del cliente ya existen");
+          return "redirect:/gestionCliente";
+        }
+      }
+      if (bindingResult.hasErrors()) {
         return "agregar_cliente";
-    }
-
-    @PostMapping(value = "/guardarCliente" )
-    public String guardarCliente(@Validated @ModelAttribute("cliente") Cliente cliente, BindingResult bindingResult,
-    RedirectAttributes redirect) {
-      try{
-        Iterable<Persona> listaPersona = clienteRepository.findAllPersonas();
-        for (Persona persona : listaPersona) {
-          if(cliente.getCi() == persona.getCi() || cliente.getEmail() == persona.getEmail()){
-            redirect.addFlashAttribute("msgError", "Cliente ya registrado");
-            return "agregar_cliente";
-          }
-        }
-          if(bindingResult.hasErrors())
-          {
-              return "agregar_cliente";
-          }
-          clienteService.save(cliente);
-          redirect.addFlashAttribute("msgExito", "El cliente fue agregado con exito");
-          return "redirect:/listarClientes";
-      
-      }catch(Exception e){
-        System.out.println(e);
-        return "redirect:/gestionCliente";
       }
+      clienteService.save(cliente);
+      redirect.addFlashAttribute("msgExito", "El cliente fue agregado con exito");
+      return "redirect:/listarClientes";
+
+    } catch (Exception e) {
+      System.out.println(e);
+      return "redirect:/listarClientes";
     }
+  }
 
-    @PostMapping(value = "/modificarCliente/{ci}" )
-    public String modificarCliente(@PathVariable(value = "ci") Long ci, @ModelAttribute("cliente") Cliente cliente, Model modelo) {
-      try{
-        Cliente cli = clienteServiceImpl.findById(ci);
-        if(cli != null){
-          cli.setCi(ci);
-          cli.setNombre(cliente.getNombre());
-          cli.setApellido(cliente.getApellido());
-          cli.setEmail(cliente.getEmail());
-          cli.setTipo(cliente.getTipo());
+  @PostMapping(value = "/modificarCliente/{ci}")
+  public String modificarCliente(@PathVariable(value = "ci") Long ci, @ModelAttribute("cliente") Cliente cliente,
+      Model modelo) {
+    try {
+      Cliente cli = clienteServiceImpl.findById(ci);
+      if (cli != null) {
+        cli.setCi(ci);
+        cli.setNombre(cliente.getNombre());
+        cli.setApellido(cliente.getApellido());
+        cli.setEmail(cliente.getEmail());
+        cli.setTipo(cliente.getTipo());
 
-          clienteService.save(cli);
-          return "redirect:/listarClientes";
-        }
-        return "redirect:/listarClientes";
-      }catch(Exception e){
+        clienteService.save(cli);
         return "redirect:/listarClientes";
       }
+      return "redirect:/listarClientes";
+    } catch (Exception e) {
+      return "redirect:/listarClientes";
     }
+  }
 
-    @GetMapping(value = "/cargarCliente/{ci}")
-    public String cargarCliente(@PathVariable(value = "ci") Long ci, Model modelo) {
-      try{
-        Cliente cliente = clienteServiceImpl.findById(ci);
-        if(cliente != null){
-          modelo.addAttribute("cliente", cliente);
-          return "modificar_cliente";
-        }
-        return "redirect:/listarClientes";
-      }catch(Exception e){
-        return "redirect:/listarClientes";
-      }
-    }
-
-    @GetMapping(value = "/cargarClienteAsignar/{ci}")
-    public String cargarClienteAsignar(@PathVariable(value = "ci") Long ci, Model modelo) {
-        Cliente cliente = clienteServiceImpl.findById(ci);
-        Iterable<Viaje> listaViajes = viajeRepository.findViajesNotInViajesCliente(cliente.getId());
+  @GetMapping(value = "/cargarCliente/{ci}")
+  public String cargarCliente(@PathVariable(value = "ci") Long ci, Model modelo) {
+    try {
+      Cliente cliente = clienteServiceImpl.findById(ci);
+      if (cliente != null) {
         modelo.addAttribute("cliente", cliente);
-        modelo.addAttribute("listaViajes", listaViajes);
-        return "asignar_viajes_clientes";
-    }
-
-    @GetMapping(value = "/eliminarCliente/{ci}")
-    public String eliminarCliente(@PathVariable Long ci) {
-      try{
-        clienteService.deleteById(ci);
-        return "redirect:/listarClientes";
-      }catch(Exception e){
-        return "redirect:/listarClientes";
+        return "modificar_cliente";
       }
+      return "redirect:/listarClientes";
+    } catch (Exception e) {
+      return "redirect:/listarClientes";
     }
+  }
+
+  @GetMapping(value = "/cargarClienteAsignar/{ci}")
+  public String cargarClienteAsignar(@PathVariable(value = "ci") Long ci, Model modelo) {
+    Cliente cliente = clienteServiceImpl.findById(ci);
+    Iterable<Viaje> listaViajes = viajeRepository.findViajesNotInViajesCliente(cliente.getId());
+    modelo.addAttribute("cliente", cliente);
+    modelo.addAttribute("listaViajes", listaViajes);
+    return "asignar_viajes_clientes";
+  }
+
+  @GetMapping(value = "/eliminarCliente/{ci}")
+  public String eliminarCliente(@PathVariable Long ci) {
+    try {
+      clienteService.deleteById(ci);
+      return "redirect:/listarClientes";
+    } catch (Exception e) {
+      return "redirect:/listarClientes";
+    }
+  }
 }

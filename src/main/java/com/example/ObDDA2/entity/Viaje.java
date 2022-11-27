@@ -48,7 +48,7 @@ public class Viaje implements Serializable{
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "viajes")
     @JsonIgnore
-    private Set<Persona> personas = new HashSet<>();
+    private Set<Cliente> clientes = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -90,12 +90,12 @@ public class Viaje implements Serializable{
         this.precio = precio;
     }
 
-    public Set<Persona> getPersonas() {
-        return personas;
+    public Set<Cliente> getClientes() {
+        return clientes;
     }
 
-    public void setPersonas(Set<Persona> personas) {
-        this.personas = personas;
+    public void setClientes(Set<Cliente> clientes) {
+        this.clientes = clientes;
     }
 
     public boolean isEliminado() {

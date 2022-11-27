@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
 import com.example.ObDDA2.entity.Viaje;
+import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.repository.ViajeRepository;
+import com.example.ObDDA2.service.ClienteService;
 import com.example.ObDDA2.service.ViajeService;
 import com.example.ObDDA2.service.ViajeServiceImpl;
 
@@ -30,6 +32,9 @@ public class ViajeController {
 
     @Autowired
     private ViajeRepository viajeRepository;
+
+    @Autowired
+    private ClienteService clienteService;
 
     @GetMapping(value = "/listarViajes")
     public String listarViajes(Model modelo){
@@ -88,5 +93,21 @@ public class ViajeController {
     public String eliminarViaje(@PathVariable Long id) {
         viajeService.deleteById(id);
         return "redirect:/listarViajes";
+    }
+
+    @GetMapping(value = "/consultaCliente/{ci}")
+    public String consultaCliente(@PathVariable(value = "ci") Long ci, Model modelo){
+        modelo.addAttribute("ci", ci);
+        modelo.addAttribute("viaje", new Viaje());
+        modelo.addAttribute("viajes", new Viaje());
+        return "consulta_cliente";
+    }
+
+    @GetMapping(value="/clienteCosulta/{ci}/fecha/{fecha}")
+    public String consultaClienteFecha(@PathVariable(value = "ci") Long ci, @ModelAttribute(value = "viajes") Viaje viajes, @ModelAttribute(value = "viaje") Viaje viaje, Model modelo){
+        Cliente cliente = clienteService.findById(ci);
+        viaje = viajeRepository.findViajeByClienteIdAndViajeFecha(viajes.getFecha(),cliente.getId());
+        modelo.addAttribute("viaje", viaje);
+        return "consulta_cliente";
     }
 }

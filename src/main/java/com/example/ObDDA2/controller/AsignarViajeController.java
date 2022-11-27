@@ -13,120 +13,74 @@ import org.springframework.ui.Model;
 import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.service.ClienteService;
 import com.example.ObDDA2.service.ClienteServiceImpl;
-import com.example.ObDDA2.entity.ClienteVip;
-import com.example.ObDDA2.service.ClienteVipService;
-import com.example.ObDDA2.service.ClienteVipServiceImpl;
 import com.example.ObDDA2.service.ViajeServiceImpl;
 import com.example.ObDDA2.repository.ViajeRepository;
-
 
 import com.example.ObDDA2.entity.Viaje;
 
 @Controller
 public class AsignarViajeController {
 
-    @Autowired
-    private ClienteService clienteService;
+  @Autowired
+  private ClienteService clienteService;
 
-    @Autowired
-    private ViajeRepository viajeRepository;
+  @Autowired
+  private ViajeRepository viajeRepository;
 
-    @Autowired
-    private ViajeServiceImpl viajeServiceImpl;
+  @Autowired
+  private ViajeServiceImpl viajeServiceImpl;
 
-    @Autowired
-    private ClienteServiceImpl clienteServiceImpl;
+  @Autowired
+  private ClienteServiceImpl clienteServiceImpl;
 
-    @Autowired
-    private ClienteVipServiceImpl clienteVipServiceImpl;
-
-    @Autowired
-    private ClienteVipService clienteVipService;
-
-    @PostMapping(value = "/guardarClienteAsignar/{ci}")
-    public String guardarCliente(@PathVariable(value = "ci") Long ci, @ModelAttribute("cliente") Cliente cliente, Model modelo) {
-        try{
-            Cliente cli = clienteServiceImpl.findById(ci);
-            List<Viaje> listaViajes = viajeRepository.findViajesByClienteId(ci);
-            if(cli != null){
-              cli.setCi(ci);
-              cli.setId(cliente.getId());
-              cli.setNombre(cliente.getNombre());
-              cli.setApellido(cliente.getApellido());
-              cli.setEmail(cliente.getEmail());
-              for (Viaje viaje2 : cliente.getViajes()) {
-                listaViajes.add(viaje2);
-              }
-              for (Viaje viaje : listaViajes) {
-                cli.addViaje(viaje);
-              }
-    
-              clienteService.save(cli);
-              return "redirect:/listarClientes";
-            }
-            return "redirect:/listarClientes";
-          }catch(Exception e){
-            return "redirect:/listarClientes";
-          }
+  @PostMapping(value = "/guardarClienteAsignar/{ci}")
+  public String guardarCliente(@PathVariable(value = "ci") Long ci, @ModelAttribute("cliente") Cliente cliente,
+      Model modelo) {
+    try {
+      int cont = 0;
+      Cliente cli = clienteServiceImpl.findById(ci);
+      List<Viaje> listaViajes = viajeRepository.findViajesByClienteId(ci);
+      if (cli != null) {
+        cli.setCi(ci);
+        cli.setId(cliente.getId());
+        cli.setNombre(cliente.getNombre());
+        cli.setApellido(cliente.getApellido());
+        cli.setEmail(cliente.getEmail());
+        for (Viaje viaje2 : cliente.getViajes()) {
+          listaViajes.add(viaje2);
+        }
+        for (Viaje viaje : listaViajes) {
+          cli.addViaje(viaje);
+        }
+        for (var i = 0; i < cli.getViajes().size(); i++) {
+          cont = cont + 1;
+        }
+        if(cont > 3){
+          cli.setTipo("Vip");
+        }
+        clienteService.save(cli);
+        return "redirect:/listarClientes";
+      }
+      return "redirect:/listarClientes";
+    } catch (Exception e) {
+      System.out.println(e);
+      return "asignar_viajes_clientes";
     }
+  }
 
-    @PostMapping(value = "/guardarClienteVipAsignar/{ci}")
-    public String guardarClienteVip(@PathVariable(value = "ci") Long ci, @ModelAttribute("clienteVip") ClienteVip clientevip, Model modelo) {
-        try{
-            ClienteVip clivip = clienteVipServiceImpl.findById(ci);
-            List<Viaje> listaViajes = viajeRepository.findViajesByClienteId(ci);
-            if(clivip != null){
-              clivip.setCi(ci);
-              clivip.setId(clientevip.getId());
-              clivip.setNombre(clientevip.getNombre());
-              clivip.setApellido(clientevip.getApellido());
-              clivip.setEmail(clientevip.getEmail());
-              
-              for (Viaje viaje2 : clientevip.getViajes()) {
-                listaViajes.add(viaje2);
-              }
-              for (Viaje viaje : listaViajes) {
-                clivip.addViaje(viaje);
-              }
-    
-              clienteVipService.save(clivip);
-              return "redirect:/listarClientesVip";
-            }
-            return "redirect:/listarClientesVip";
-          }catch(Exception e){
-            return "redirect:/listarClientesVip";
-          }
-    }
+  @GetMapping(value = "/cargarViajesCliente/{ci}")
+  public String listarViajesClientes(@PathVariable(value = "ci") Long ci, Model modelo) {
+    Cliente cliente = clienteService.findById(ci);
+    Iterable<Viaje> listaClientesViajes = viajeRepository.findViajesByClienteId(cliente.getId());
+    modelo.addAttribute("clientesViajes", listaClientesViajes);
+    modelo.addAttribute("cliente", cliente);
+    return "eliminar_viajes_clientes";
+  }
 
-    @GetMapping(value = "/cargarViajesCliente/{ci}")
-    public String listarViajesClientes(@PathVariable(value = "ci") Long ci, Model modelo) {
-      Cliente cliente = clienteService.findById(ci);
-      Iterable<Viaje> listaClientesViajes = viajeRepository.findViajesByClienteId(cliente.getId());
-      modelo.addAttribute("clientesViajes", listaClientesViajes);
-      modelo.addAttribute("cliente", cliente);
-      return "eliminar_viajes_clientes";
-    }
-
-    @GetMapping(value = "/eliminarViaje/{id}/cliente/{ci}")
-    public String eliminarClienteViaje(@PathVariable Long ci, @PathVariable Long id) {
-        Cliente cliente = clienteService.findById(ci);
-        viajeServiceImpl.deleteViajeClienteById(cliente.getId(), id);
-        return "redirect:/cargarViajesCliente/{ci}";
-    }
-
-    @GetMapping(value = "/cargarViajesClienteVip/{ci}")
-    public String listarViajesClientesVip(@PathVariable(value = "ci") Long ci, Model modelo) {
-      ClienteVip clienteVip = clienteVipService.findById(ci);
-      Iterable<Viaje> listaClientesViajes = viajeRepository.findViajesByClienteId(clienteVip.getId());
-      modelo.addAttribute("cliente", clienteVip);
-      modelo.addAttribute("clientesViajes", listaClientesViajes);
-      return "eliminar_viajes_clientesVip";
-    }
-
-    @GetMapping(value = "/eliminarViaje/{id}/clienteVip/{ci}")
-    public String eliminarClienteVipViaje(@PathVariable Long ci, @PathVariable Long id) {
-        ClienteVip clienteVip = clienteVipService.findById(ci);
-        viajeServiceImpl.deleteViajeClienteById(clienteVip.getId(), id);
-        return "redirect:/cargarViajesClienteVip/{ci}";
-    }
+  @GetMapping(value = "/eliminarViaje/{id}/cliente/{ci}")
+  public String eliminarClienteViaje(@PathVariable Long ci, @PathVariable Long id) {
+    Cliente cliente = clienteService.findById(ci);
+    viajeServiceImpl.deleteViajeClienteById(cliente.getId(), id);
+    return "redirect:/cargarViajesCliente/{ci}";
+  }
 }

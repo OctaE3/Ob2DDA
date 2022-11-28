@@ -47,12 +47,6 @@ public class ClienteServiceImpl implements ClienteService{
         clienteRepository.deleteById(Ci);
     }
 
-    @Transactional
-    public void deletePersonaById(Long id){
-        clienteRepository.deletePersonaById(id);
-    }
-
-
     @Override
     public Page<Cliente> findAll(Pageable pageable)
     {

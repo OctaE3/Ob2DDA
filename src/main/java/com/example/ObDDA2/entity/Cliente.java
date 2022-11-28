@@ -46,7 +46,7 @@ public class Cliente implements Serializable {
     private String email;
 
     @Column(length = 8, nullable = false)
-    private String tipo = "Estandar";
+    private String tipo = "Estándar";
 
     public Long getId() {
         return id;

@@ -2,8 +2,6 @@ package com.example.ObDDA2.controller;
 
 import java.util.*;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,13 +73,13 @@ public class AsignarViajeController {
           for (Viaje viaje : listaViajes) {
             cli.addViaje(viaje);
           }
-          for (var i = 0; i < cli.getViajes().size(); i++) {
-            cont = cont + 1;
-          }
-          if(cont > 3){
-            cli.setTipo("Vip");
-          }
         }
+      }
+      cont = cli.getViajes().size();
+      if(cont > 3){
+        cli.setTipo("Vip");
+      }else{
+        cli.setTipo("Estándar");
       }
       clienteService.save(cli);
       return "redirect:/listarClientes";
@@ -104,6 +102,11 @@ public class AsignarViajeController {
   public String eliminarClienteViaje(@PathVariable Long ci, @PathVariable Long id) {
     Cliente cliente = clienteService.findById(ci);
     viajeServiceImpl.deleteViajeClienteById(cliente.getId(), id);
+    int cont = cliente.getViajes().size();
+    if(cont <= 3){
+      cliente.setTipo("Estándar");
+      clienteService.save(cliente);
+    }
     return "redirect:/cargarViajesCliente/{ci}";
   }
 }

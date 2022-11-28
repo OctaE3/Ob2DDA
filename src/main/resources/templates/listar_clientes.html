@@ -42,6 +42,12 @@
 			  <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
 		  </div>
 
+      <div th:if="${msgError != null}"
+			  class="alert alert-danger alert-dismissible">
+			  [[${msgError}]]
+			  <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
+		  </div>
+
     </div>
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-3">
@@ -66,12 +72,12 @@
           <td th:text="${cliente.apellido}">Apellido</td>
           <td th:text="${cliente.email}">Email</td>
           <td th:text="${cliente.tipo}">Tipo</td>
-          <td class="display:flex; justify-content:center; align-items:center;">
-            <a th:href="@{/cargarCliente/} + ${cliente.ci}" class="btn btn-warning">Modificar</a>
-            <a th:href="@{/eliminarCliente/} + ${cliente.ci}" class="btn btn-danger">Eliminar</a>
-            <a th:href="@{/cargarClienteAsignar/} + ${cliente.ci}" class="btn btn-success">Asignar Viaje</a>
-            <a th:href="@{/cargarViajesCliente/} + ${cliente.ci}" class="btn btn-primary">Ver Viajes</a>
-            <a th:href="@{/consultaCliente/} + ${cliente.ci}" class="btn btn-primary">Consulta Fecha</a>
+          <td style="display:flex; justify-content:center; align-items:center;">
+            <a th:href="@{/cargarCliente/} + ${cliente.ci}" class="btn btn-warning" style="margin-left:1%; margin-right: 1%;">Modificar</a>
+            <a th:href="@{/eliminarCliente/} + ${cliente.ci}" class="btn btn-danger" style="margin-left:1%; margin-right: 1%;">Eliminar</a>
+            <a th:href="@{/cargarClienteAsignar/} + ${cliente.ci}" class="btn btn-success" style="margin-left:1%; margin-right: 1%;">Asignar Viaje</a>
+            <a th:href="@{/cargarViajesCliente/} + ${cliente.ci}" class="btn btn-primary" style="margin-left:1%; margin-right: 1%;">Ver Viajes</a>
+            <a th:href="@{/consultaCliente/} + ${cliente.ci}" class="btn btn-dark" style="margin-left:1%; margin-right: 1%;">Consulta Fecha</a>
           </td>
         </tr>
       </tbody>

@@ -25,6 +25,10 @@ public interface ViajeRepository extends JpaRepository<Viaje, Long> {
     @Query(value = "DELETE FROM clientes_viajes WHERE cliente_id = :clienteId AND viaje_id = :viajeId", nativeQuery = true)
     public void deleteViajeClienteById(@Param("clienteId") Long clienteId, @Param("viajeId") Long viajeId);
 
+    @Modifying
+    @Query(value = "DELETE FROM clientes_viajes WHERE cliente_id = :clienteId", nativeQuery = true)
+    public void deleteAllViajesClienteById(@Param("clienteId") Long clienteId);
+
     @Query(value = "SELECT v.* FROM viajes v INNER JOIN clientes_viajes cv ON v.id = cv.viaje_id WHERE v.fecha > :fechaViaje AND cv.cliente_id = :clienteId ORDER BY v.fecha LIMIT 1", nativeQuery = true)
     public Viaje findViajeByClienteIdAndViajeFecha(@Param("fechaViaje") Date fechaViaje, @Param("clienteId") Long clienteId);
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.service.ClienteService;
 import com.example.ObDDA2.service.ClienteServiceImpl;
+import com.example.ObDDA2.service.ViajeServiceImpl;
 import com.example.ObDDA2.entity.Viaje;
 import com.example.ObDDA2.repository.ViajeRepository;
 
@@ -27,6 +28,9 @@ public class ClienteController {
 
   @Autowired
   private ViajeRepository viajeRepository;
+
+  @Autowired
+  private ViajeServiceImpl viajeServiceImpl;
 
   @GetMapping(value = "/listarClientes")
   public String listarClientes(Model modelo) {
@@ -111,7 +115,9 @@ public class ClienteController {
   @GetMapping(value = "/eliminarCliente/{ci}")
   public String eliminarCliente(@PathVariable Long ci) {
     try {
-      clienteService.deleteById(ci);
+      Cliente cliente = clienteService.findById(ci);
+      viajeServiceImpl.deleteAllViajesClienteById(cliente.getId());
+      clienteService.deleteById(cliente.getId());
       return "redirect:/listarClientes";
     } catch (Exception e) {
       return "redirect:/listarClientes";

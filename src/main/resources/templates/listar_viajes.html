@@ -66,9 +66,9 @@
           <td th:text="${viaje.fecha}">Fecha</td>
           <td th:text="${viaje.modalidad}">Modalidad</td>
           <td th:text="${viaje.precio}">Precio</td>
-          <td class="display:flex; justify-content:center; align-items:center;">
-            <a th:href="@{/cargarViaje/} + ${viaje.id}" class="btn btn-warning">Modificar</a>
-            <a th:href="@{/eliminarViaje/} + ${viaje.id}" class="btn btn-danger">Eliminar</a>
+          <td style="display:flex; justify-content:center; align-items:center;">
+            <a th:href="@{/cargarViaje/} + ${viaje.id}" class="btn btn-warning" style="margin-left:1%; margin-right: 1%;">Modificar</a>
+            <a th:href="@{/eliminarViaje/} + ${viaje.id}" class="btn btn-danger" style="margin-left:1%; margin-right: 1%;">Eliminar</a>
           </td>
         </tr>
       </tbody>

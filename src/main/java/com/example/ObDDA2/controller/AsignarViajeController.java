@@ -76,7 +76,7 @@ public class AsignarViajeController {
         }
       }
       cont = cli.getViajes().size();
-      if(cont > 3){
+      if(cont >= 3){
         cli.setTipo("Vip");
       }else{
         cli.setTipo("Estándar");
@@ -103,7 +103,7 @@ public class AsignarViajeController {
     Cliente cliente = clienteService.findById(ci);
     viajeServiceImpl.deleteViajeClienteById(cliente.getId(), id);
     int cont = cliente.getViajes().size();
-    if(cont <= 3){
+    if(cont < 3){
       cliente.setTipo("Estándar");
       clienteService.save(cliente);
     }

@@ -33,19 +33,22 @@
                     <div class="card-body">
                         <form th:action="@{/modificarCliente/{ci} (ci=${cliente.ci})}" th:object="${cliente}" method="POST">
                             <div class="form-group">
-                                <label>Nombre</label>
-                                <input type="text" name="nombre" th:field="*{nombre}" class="form-control" placeholder="Ingrese su nombre">
-                            </div>
+                                <label for="nombre">Nombre</label>
+                                <input type="text" id="nombre" name="nombre" th:field="*{nombre}" th:errorClass="is-invalid" class="form-control" placeholder="Ingrese su nombre">
+                                <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="invalid-feedback"></div>
+                              </div>
                             <br/>
                             <div class="form-group">
                                 <label>Apellido</label>
-                                <input type="text" name="apellido" th:field="*{apellido}" class="form-control" placeholder="Ingrese su apellido">
-                            </div>
+                                <input type="text" id="apellido" name="apellido" th:field="*{apellido}" th:errorClass="is-invalid" class="form-control" placeholder="Ingrese su apellido">
+                                <div th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="invalid-feedback"></div>
+                              </div>
                             <br/>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" name="email" th:field="*{email}" class="form-control" placeholder="Ingrese su email">
-                            </div>
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" th:field="*{email}" th:errorClass="is-invalid" class="form-control" placeholder="Ingrese su email">
+                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+                              </div>
                             <br/>
                             <div class="form-group" style="display:flex; justify-content:center; align-items:center;">
                                 <button class="btn btn-warning" style="margin: 1%;">Modificar</button>

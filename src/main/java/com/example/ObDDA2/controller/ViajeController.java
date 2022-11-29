@@ -1,7 +1,6 @@
 package com.example.ObDDA2.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
+
 import com.example.ObDDA2.entity.Viaje;
 import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.repository.ViajeRepository;
@@ -64,23 +64,18 @@ public class ViajeController {
     @GetMapping(value = "/cargarViaje/{id}")
     public String cargarViaje(@PathVariable(value = "id") Long id, Model modelo) {
         Viaje viaje = viajeServiceImpl.findById(id);
-        List<String> mod = new ArrayList<>();
-        mod.add("Terrestre");
-        mod.add("Maritimo");
-        mod.add("Aereo");
         modelo.addAttribute("viaje", viaje);
-        modelo.addAttribute("listaMod", mod);
         return "modificar_viaje";
     }
 
     @PostMapping(value = "/modificarViaje/{id}")
-    public String updateViaje(@PathVariable(value = "id") Long id,@Validated @ModelAttribute("viaje") Viaje viaje, Model modelo, BindingResult bindingResult, RedirectAttributes redirect){
+    public String updateViaje(@ModelAttribute("viaje") Viaje viaje, Model modelo, BindingResult bindingResult, RedirectAttributes redirect){
         try{
-            Viaje viajeExistente = viajeServiceImpl.findById(id);
+            Viaje viajeExistente = viajeServiceImpl.findById(viaje.getId());
         if(bindingResult.hasErrors()){            
-            return "index";
+            return "modificar_viaje";
         }
-        viajeExistente.setId(id);
+        viajeExistente.setId(viaje.getId());
         viajeExistente.setDestino(viaje.getDestino());
         viajeExistente.setFecha(viaje.getFecha());
         viajeExistente.setModalidad(viaje.getModalidad());
@@ -91,7 +86,7 @@ public class ViajeController {
         return "redirect:/listarViajes";
         }catch(Exception e){
             System.out.println(e);
-            redirect.addFlashAttribute("msgError", "Ocurrio un error, no se logro modificar");
+            redirect.addFlashAttribute("msgError", "Ocurrio un error, no se logro modificar, compruebe que los datos sean correctos");
             return "redirect:/listarViajes";
         }
     }

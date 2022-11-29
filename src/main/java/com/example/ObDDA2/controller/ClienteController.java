@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
+
 import com.example.ObDDA2.entity.Cliente;
 import com.example.ObDDA2.service.ClienteService;
 import com.example.ObDDA2.service.ClienteServiceImpl;
@@ -70,8 +71,11 @@ public class ClienteController {
 
   @PostMapping(value = "/modificarCliente/{ci}")
   public String modificarCliente(@PathVariable(value = "ci") Long ci, @ModelAttribute("cliente") Cliente cliente,
-      Model modelo) {
+      Model modelo, BindingResult bindingResult, RedirectAttributes redirect) {
     try {
+      if(bindingResult.hasErrors()){            
+        return "modificar_cliente";
+    }
       Cliente cli = clienteServiceImpl.findById(ci);
       if (cli != null) {
         cli.setCi(ci);
@@ -81,10 +85,13 @@ public class ClienteController {
         cli.setTipo(cliente.getTipo());
 
         clienteService.save(cli);
+        redirect.addFlashAttribute("msgExito", "El cliente ha sido actualizado correctamente");
         return "redirect:/listarClientes";
       }
       return "redirect:/listarClientes";
     } catch (Exception e) {
+      System.out.println(e);
+      redirect.addFlashAttribute("msgError", "Ocurrio un error, no se logro modificar, compruebe que los datos sean correctos");
       return "redirect:/listarClientes";
     }
   }

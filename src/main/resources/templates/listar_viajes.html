@@ -40,6 +40,12 @@
 			  [[${msgExito}]]
 			  <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
 		  </div>
+      <div th:if="${msgError != null}"
+			  class="alert alert-danger alert-dismissible">
+			  [[${msgError}]]
+			  <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
+		  </div>
+
 
       <h1>Lista de Viajes</h1>
     </div>
